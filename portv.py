@@ -3,10 +3,10 @@ import nmap
 def port_version_scan(target, ports):
     scanner = nmap.PortScanner()
 
-    print(f"Scanning {target} on ports {ports} for version info...\n")
+    print(f"\nScanning {target} on ports {ports} for version info...\n")
 
     try:
-        # Scan the specified ports with version detection (-sV)
+        # Perform version scan on specified ports
         scanner.scan(hosts=target, ports=ports, arguments='-sV')
 
         for host in scanner.all_hosts():
@@ -18,16 +18,19 @@ def port_version_scan(target, ports):
 
                 for port in sorted(scanned_ports):
                     service = scanner[host][proto][port]
+                    state = service.get('state', 'unknown')
                     name = service.get('name', 'unknown')
                     product = service.get('product', '')
                     version = service.get('version', '')
                     extrainfo = service.get('extrainfo', '')
 
-                    print(f"Port {port}/{proto} - {name}")
+                    print(f"Port {port}/{proto} is {state} - {name}")
+                    
                     version_info = f"{product} {version}".strip()
                     if extrainfo:
                         version_info += f" ({extrainfo})"
-                    if version_info:
+                    
+                    if version_info.strip():
                         print(f"  Version: {version_info}")
                     else:
                         print("  Version: Unknown")
@@ -46,3 +49,4 @@ if __name__ == "__main__":
         port_version_scan(target, ports)
     else:
         print("Please provide both target and port(s).")
+
