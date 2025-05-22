@@ -8,7 +8,6 @@ A Python tool to scan ports, detect if they’re open or closed, and identify se
 - Scans a range of TCP ports
 - Accepts user-defined target and port range
 - Fast and easy to run from the command line
-
 ## 📦 Requirements
 
 - Python 3.x
